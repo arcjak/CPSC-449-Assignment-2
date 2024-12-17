@@ -1,4 +1,3 @@
-# Import necessary libraries
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import List, Optional
@@ -49,7 +48,7 @@ class BookResponse(BookBase):
     id: int  # Include ID when responding
 
     class Config:
-        orm_mode = True  # Allow compatibility with ORM models
+        orm_mode = True  
 
 # Step 5: Session Configuration
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -109,9 +108,9 @@ def update_book(book_id: int, updated_book: BookCreate, db: Session = Depends(ge
 
     for key, value in updated_book.dict().items():  # Update fields
         setattr(book, key, value)
-    db.commit()  # Commit changes
-    db.refresh(book)  # Refresh instance
-    return book  # Return updated book
+    db.commit()  
+    db.refresh(book)  
+    return book  
 
 # 5. Delete a book by ID
 @app.delete("/books/{book_id}", response_model=dict)
@@ -128,4 +127,4 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
     return {"detail": "Book deleted successfully"}  # Return confirmation
 
 # Step 7: Run the FastAPI server
-# Run using: uvicorn main:app --reload
+
